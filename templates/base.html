@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{% block title %}Stock Studio{% endblock %}</title><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
+<body>
+<aside class="sidebar"><a class="brand" href="{{ url_for('index') }}"><span class="logo">◈</span> Stock Studio</a><p class="nav-caption">YOUR WORKSPACE</p><nav aria-label="Main navigation"><a class="{{ 'active' if request.endpoint == 'index' }}" href="{{ url_for('index') }}">◫ <span>Dashboard</span></a><a class="{{ 'active' if request.endpoint in ['library','asset_detail'] }}" href="{{ url_for('library') }}">▧ <span>Image library</span></a><a class="{{ 'active' if request.endpoint == 'niches' }}" href="{{ url_for('niches') }}">◎ <span>Niche manager</span></a></nav><div class="sidebar-bottom"><span class="dot"></span> Local workspace<p>Your images. Your creative process.</p></div></aside>
+<div class="workspace"><header><span>Workspace <span class="breadcrumb">/ {% block breadcrumb %}Overview{% endblock %}</span></span><span class="local-badge">● Local storage</span></header><main>
+{% with messages = get_flashed_messages(with_categories=true) %}{% for category, message in messages %}<div class="notice {{ category }}" role="status">{{ message }}</div>{% endfor %}{% endwith %}
+{% block content %}{% endblock %}
+<footer>Stock Studio · Independent project, not affiliated with Adobe. Submission statuses are tracked manually.</footer>
+</main></div></body></html>
