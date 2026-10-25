@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Stock Studio</title><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
+<body>
+<header><a class="brand" href="/">◈ Stock Studio</a><span>Your next collection starts here</span></header>
+<main>
+<div class="intro"><div><p class="eyebrow">THE CONTRIBUTOR WORKSPACE</p><h1>Make your work<br>ready for the world.</h1><p>Organize images, refine your metadata, and export your collection.</p></div><a class="button secondary" href="{{ url_for('export') }}">Export CSV ↗</a></div>
+{% for message in get_flashed_messages() %}<p class="notice" role="status">{{ message }}</p>{% endfor %}
+<form class="upload" action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data"><div><h2>Add to your collection</h2><p>JPEG, PNG, or WebP · 25 MB maximum per upload</p></div><label class="file-label">Choose images<input type="file" name="images" accept="image/jpeg,image/png,image/webp" multiple required></label><button type="submit">Upload images</button></form>
+<div class="section-title"><h2>Your collection</h2><span>{{ assets|length }} images</span></div>
+<section class="grid">
+{% for asset in assets %}<article class="card"><div class="preview"><img src="{{ url_for('image', filename=asset.stored_name) }}" alt="{{ asset.title or asset.filename }}" loading="lazy"></div><form action="{{ url_for('update', asset_id=asset.id) }}" method="post"><h3>{{ asset.filename }}</h3><label>Title<input name="title" value="{{ asset.title }}" maxlength="200" placeholder="Describe the subject and setting"></label><label>Keywords<textarea name="keywords" rows="3" placeholder="nature, landscape, morning">{{ asset.keywords }}</textarea></label><p class="hint">Separate with commas. Up to 49 keywords.</p><button type="submit">Save metadata</button></form></article>
+{% else %}<div class="empty"><div class="empty-icon">▧</div><h2>A blank canvas. Endless possibilities.</h2><p>Upload your first images to start preparing your collection.</p></div>{% endfor %}
+</section>
+<footer>Local image workspace · Independent project, not affiliated with Adobe.<br>Review submission requirements before uploading to a stock marketplace.</footer>
+</main></body></html>
